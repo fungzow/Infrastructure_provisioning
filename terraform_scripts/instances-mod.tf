@@ -1,5 +1,5 @@
 #1. Create and initialise a backend for state file storage.
-terraform {
+/*terraform {
    backend "s3" {
      bucket         = "landmark-automation-kenmak"
      key            = "global/s3/terraform.tfstate"
@@ -33,7 +33,7 @@ resource "aws_dynamodb_table" "terraform-lock" {
     tags = {
         "Name" = "DynamoDB Terraform State Lock Table"
     }
- } 
+ }*/ 
 
 #4. Generate ssh_key
    resource "tls_private_key" "ansible" {
