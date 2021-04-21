@@ -1,0 +1,6 @@
+# Ignore the following files
+Automationkey.pem
+.terraform.lock.hcl
+.terraform
+terraform.tfstate
+terraform.tfstate.backup

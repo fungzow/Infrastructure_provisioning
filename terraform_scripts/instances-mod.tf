@@ -1,12 +1,12 @@
 #1. Create and initialise a backend for state file storage.
-terraform {
+/*terraform {
    backend "s3" {
      bucket         = "landmark-automation-kenmak"
      key            = "global/s3/terraform.tfstate"
      region         = "us-west-2"
      dynamodb_table = "terraform_state"
    }
- }
+ }*/
 
 /*#2. Create an s3 bucket
 resource "aws_s3_bucket" "terraform_state"{
@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "terraform_state"{
    } */
 
 #3. Create a dynamodb to lock the state file.
-resource "aws_dynamodb_table" "terraform-lock" {
+/*resource "aws_dynamodb_table" "terraform-lock" {
     name           = "terraform_state"
     read_capacity  = 5
     write_capacity = 5
@@ -33,7 +33,7 @@ resource "aws_dynamodb_table" "terraform-lock" {
     tags = {
         "Name" = "DynamoDB Terraform State Lock Table"
     }
- }
+ }*/
 
 #4. Generate ssh_key
    resource "tls_private_key" "ansible" {
@@ -53,7 +53,7 @@ resource "aws_instance" "Kubernetes_Servers" {
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
-  user_data        = file("create_ansible_user.sh")
+  #user_data        = file("create_ansible_user.sh")
     tags = {
         Name = "Kubernetes_Servers"
         Type = "Kubernetes_Master"
@@ -89,7 +89,7 @@ resource "aws_instance" "Kubernetes_Workers" {
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
-  user_data              = file("create_ansible_user.sh")
+  #user_data              = file("create_ansible_user.sh")
   tags ={
     Name = "Kubernetes_Servers"
     Type = "Kubernetes_Worker"
@@ -109,6 +109,7 @@ resource "aws_instance" "Kubernetes_Workers" {
   }
 #13. This is how the local machine connects to the kubernetes worker nodes.
  connection {
+    type            = "ssh"
     user            = "ec2-user"
     private_key     = file(var.private_key_path)
     host            = self.public_ip
@@ -147,7 +148,7 @@ resource "aws_instance" "nexus_worker" {
   count                  = 1
   ami                    = var.nexus_ami
   instance_type          = var.nexus_instance_type
- vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
+  vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
 
