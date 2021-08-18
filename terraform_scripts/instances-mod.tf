@@ -36,7 +36,7 @@ resource "aws_s3_bucket" "terraform_state"{
  }*/
 
 #4. Generate ssh_key
-   resource "tls_private_key" "ansible" {
+ /*  resource "tls_private_key" "ansible" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
@@ -44,12 +44,13 @@ resource "aws_s3_bucket" "terraform_state"{
 #5. Get ssh_key
 resource "aws_key_pair" "ansiblesshkey" {
   public_key = tls_private_key.ansible.public_key_openssh
-}
+}*/
+
 #6. Create a kubernetes master instance.
 resource "aws_instance" "Kubernetes_Servers" {
   count                  = 1
   ami                    = var.kubernetes_ami
-  instance_type          = var.master_instance_type
+  instance_type          = var.medium_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
@@ -58,9 +59,10 @@ resource "aws_instance" "Kubernetes_Servers" {
         Name = "Kubernetes_Servers"
         Type = "Kubernetes_Master"
    }
+}
 
 #7. Read and Copy the ssh_key generated to remote server.
-  provisioner "file" {
+ /* provisioner "file" {
     content     = aws_key_pair.ansiblesshkey.public_key
     destination = "/tmp/private_key"
   }
@@ -79,13 +81,13 @@ connection {
     host            = self.public_ip
 
   }
-}
+}*/
 
 #10. Create kubernetes worker nodes.
 resource "aws_instance" "Kubernetes_Workers" {
   count                  = 2
   ami                    = var.kubernetes_ami
-  instance_type          = var.worker_instance_type
+  instance_type          = var.micro_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
@@ -94,9 +96,10 @@ resource "aws_instance" "Kubernetes_Workers" {
     Name = "Kubernetes_Servers"
     Type = "Kubernetes_Worker"
    }
+}
 
 #11. Reads and Copies the ssh_keys to the remote kubernetes worker nodes.
-  provisioner "file" {
+ /* provisioner "file" {
     content     = aws_key_pair.ansiblesshkey.public_key
     destination = "/tmp/private_key"
   }
@@ -114,13 +117,13 @@ resource "aws_instance" "Kubernetes_Workers" {
     private_key     = file(var.private_key_path)
     host            = self.public_ip
    }
-}
+}*/
 
 #14. Create Jenkins worker nodes.
 resource "aws_instance" "jenkins_worker" {
   count                  = 1
-  ami                    = var.jenkins_ami
-  instance_type          = var.jenkins_instance_type
+  ami                    = var.server_ami
+  instance_type          = var.micro_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
@@ -132,8 +135,8 @@ resource "aws_instance" "jenkins_worker" {
 #15. Create a sonarQube server
 resource "aws_instance" "sonarQube_worker" {
   count                  = 1
-  ami                    = var.sonarQube_ami
-  instance_type          = var.sonarQube_instance_type
+  ami                    = var.server_ami
+  instance_type          = var.medium_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
@@ -146,8 +149,8 @@ resource "aws_instance" "sonarQube_worker" {
 #16. Create Nexus server.
 resource "aws_instance" "nexus_worker" {
   count                  = 1
-  ami                    = var.nexus_ami
-  instance_type          = var.nexus_instance_type
+  ami                    = var.server_ami
+  instance_type          = var.medium_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
@@ -160,8 +163,8 @@ resource "aws_instance" "nexus_worker" {
 #17. Create a Tomcat server .
 resource "aws_instance" "tomcat_worker" {
   count                  = 1
-  ami                    = var.tomcat_ami
-  instance_type          = var.tomcat_instance_type
+  ami                    = var.server_ami
+  instance_type          = var.micro_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name
@@ -175,8 +178,8 @@ resource "aws_instance" "tomcat_worker" {
 #18. Create a Prometheus server .
 resource "aws_instance" "prometheus_worker" {
   count                  = 1
-  ami                    = var.prometheus_ami
-  instance_type          = var.prometheus_instance_type
+  ami                    = var.server_ami
+  instance_type          = var.micro_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]
   subnet_id              = element(aws_subnet.kubernetes_subnets.*.id, count.index)
   key_name               = var.key_name

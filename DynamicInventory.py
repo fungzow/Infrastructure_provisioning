@@ -36,7 +36,7 @@ def main():
     for key, value in all_groups.items():
         hostsobj = {'hosts': value}
         inventory[key] = hostsobj
-       print(json.dumps(inventory))
+    print(json.dumps(inventory))
 
 
 if __name__ == "__main__":

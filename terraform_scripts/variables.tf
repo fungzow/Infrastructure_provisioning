@@ -17,45 +17,29 @@ variable "availability_zones" {
   default = ["us-west-2a", "us-west-2b"]
 }
 variable "kubernetes_ami" {
-  default = "ami-00a38949ddb2ddb5c"
+  default = "ami-02efe31f21526284a"
 }
-variable "master_instance_type" {
+variable "medium_instance_type" {
   default = "t2.medium"
 }
-variable "worker_instance_type" {
-  default = "t2.micro"
-}
-variable "private_key_path" {
-  default = "Automationkey.pem"
-}
-variable "jenkins_ami" {
-  default = "ami-01e78c5619c5e68b4"
-}
-variable "jenkins_instance_type" {
-  default = "t2.micro"
-}
-variable "sonarQube_ami" {
-  default = "ami-01e78c5619c5e68b4"
-}
-variable "sonarQube_instance_type" {
-  default = "t2.medium"
-}
-variable "nexus_ami" {
-  default = "ami-01e78c5619c5e68b4"
-}
-variable "nexus_instance_type" {
-  default = "t2.medium"
-}
-variable "tomcat_ami" {
-  default = "ami-01e78c5619c5e68b4"
-}
-variable "tomcat_instance_type" {
+
+variable "micro_instance_type" {
   default = "t2.micro"
 }
 
-variable "prometheus_ami" {
-  default = "ami-01e78c5619c5e68b4"
+variable "private_key_path" {
+  default = "Automationkey.pem"
 }
-variable "prometheus_instance_type" {
-  default = "t2.micro"
+variable "server_ami" {
+  default = "ami-086d8b62958af8558"
 }
+
+
+
+
+
+
+
+
+
+

@@ -8,8 +8,8 @@
 
     - name: Register dummy host with variable It Access In Next Play
       add_host:
-       name: "DUMMY_HOST"
-       JOIN_COMMAND: " {{ join_command_raw.stdout }}"
+        name: "DUMMY_HOST"
+        JOIN_COMMAND: " {{ join_command_raw.stdout }}"
 
 
 - hosts: Kubernetes_Worker
@@ -20,3 +20,4 @@
       args:
         chdir: $HOME
         creates: node_joined.txt
+
