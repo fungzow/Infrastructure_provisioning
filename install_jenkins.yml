@@ -2,15 +2,14 @@
   become: yes
   become_user: root
   tasks:
-     - name: install wget
+     - name: install wget, git and java
        yum:
-         name: wget
+         name: "{{item}}"
          state: present
-
-     - name: install git
-       yum:
-          name: git
-          state: present
+       loop:
+       - wget
+       - git
+       - java-1.8.0-openjdk-devel
 
      - name: install jenkins repo
        command: wget -O /etc/yum.repos.d/jenkins.repo \ https://pkg.jenkins.io/redhat-stable/jenkins.repo
@@ -18,11 +17,7 @@
      - name: import jenkins key
        command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 
-     - name: Install java
-       yum:
-          name: java-1.8.0-openjdk-devel
-          state: present
-
+    
      - name: Install jenkins
        yum:
          name: jenkins
