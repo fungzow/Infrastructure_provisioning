@@ -8,8 +8,8 @@
  # import_playbook: install_jenkins.yml
 #- name: Configure SonarQube server
  # import_playbook: sonarQube.yml
-- name: Configure Nexus server
-  import_playbook: nexus-install.yml
+#- name: Configure Nexus server
+ # import_playbook: nexus-install.yml
 - name: Configure Tomcat server
   import_playbook: tomcat.yml
 

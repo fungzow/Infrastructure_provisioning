@@ -1,14 +1,9 @@
-- hosts: tomcat_worker
-  become: yes
-  become_user: root
-  tasks:
-    - name: Install Apache2 Tomcat
-      yum:
-        name: httpd
-        state: present
+---
+ - name: Install and configure tomcat9
+   hosts: tomcat_worker
+   become: yes
 
-    - name: Start and enable Tomcat service
-      systemd:
-          name: httpd
-          state: started
-          enabled: true
+   roles:
+   - update_repos 
+   - install_java
+   - tomcat
