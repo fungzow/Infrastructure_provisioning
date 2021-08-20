@@ -1,15 +1,15 @@
-- name: Install Kubernetes Dependencies
-  import_playbook: kube-dependencies1.yml
-- name: Initialaize Kubernetes Master
-  import_playbook: master-cluster.yml
-- name: Get token from master and join workers
-  import_playbook: workers-cluster.yml
-- name: Configure Jenkins server
-  import_playbook: install_jenkins.yml
-- name: Configure SonarQube server
-  import_playbook: sonarQube.yml
-- name: Configure Nexus server
-  import_playbook: nexus-install.yml
+#- name: Install Kubernetes Dependencies
+ # import_playbook: kube-dependencies1.yml
+#- name: Initialaize Kubernetes Master
+  #import_playbook: master-cluster.yml
+#- name: Get token from master and join workers
+ # import_playbook: workers-cluster.yml
+#- name: Configure Jenkins server
+ # import_playbook: install_jenkins.yml
+#- name: Configure SonarQube server
+ # import_playbook: sonarQube.yml
+#- name: Configure Nexus server
+ # import_playbook: nexus-install.yml
 - name: Configure Tomcat server
   import_playbook: tomcat.yml
 
