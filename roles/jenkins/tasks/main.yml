@@ -1,0 +1,55 @@
+# tasks file for jenkins
+- name: install wget, git and java
+  yum:
+    name: "{{item}}"
+    state: present
+  loop:
+  - wget
+  - git
+  - java-1.8.0-openjdk-devel
+
+- name: install jenkins repo
+  command: wget -O /etc/yum.repos.d/jenkins.repo \ https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+- name: import jenkins key
+  command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+    
+- name: Install jenkins
+  yum:
+    name: jenkins
+    state: present
+
+- name: Change jenkins users shell
+  user:
+    name: jenkins
+    shell: /bin/bash
+
+- name: start jenkins daemon
+  command: systemctl daemon-reload  
+
+ 
+- name: start jenkins
+  command: systemctl start jenkins
+       
+- name: Sleep for 30 seconds and continue with play
+  wait_for:
+    timeout: 30
+
+- name: Get init password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+  tags: 
+   - xyz
+
+- name: Print init password Jenkins
+  debug:
+    var: result.stdout
+  tags:
+   - 123
+
+- name: Configuring Nexus user credentials
+  template:
+    src: settings.xml.j2
+    dest: /var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/maven3.6.3/conf/settings.xml   
