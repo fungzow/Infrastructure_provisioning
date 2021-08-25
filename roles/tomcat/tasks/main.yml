@@ -10,8 +10,8 @@
     dest: /usr/local
     remote_src: yes
 
-#- name: Renaming tomcat home
- # command: mv /usr/local/apache-tomcat-{{req_tomcat_ver}} /usr/local/latest
+- name: Renaming tomcat home
+  command: mv /usr/local/apache-tomcat-{{req_tomcat_ver}} /usr/local/latest
 
 - name: Configuring tomcat user credentials and roles
   template:
