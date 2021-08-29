@@ -9,12 +9,18 @@
   - java-1.8.0-openjdk-devel
 
 - name: install jenkins repo
-  command: wget -O /etc/yum.repos.d/jenkins.repo \ https://pkg.jenkins.io/redhat-stable/jenkins.repo
+  shell: wget -O /etc/yum.repos.d/jenkins.repo \ https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
 
 - name: import jenkins key
-  command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+  shell: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 
-    
+#- name: yum upgrade
+  #shell: yum update -y
+
+#- name: Install epel-release
+  #shell: yum install epel-release java-11-openjdk-devel
+
 - name: Install jenkins
   yum:
     name: jenkins
@@ -28,7 +34,6 @@
 - name: start jenkins daemon
   command: systemctl daemon-reload  
 
- 
 - name: start jenkins
   command: systemctl start jenkins
        

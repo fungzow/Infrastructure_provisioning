@@ -12,10 +12,10 @@
        - java-1.8.0-openjdk-devel
 
      - name: install jenkins repo
-       command: wget -O /etc/yum.repos.d/jenkins.repo \ https://pkg.jenkins.io/redhat-stable/jenkins.repo
+       shell: wget -O /etc/yum.repos.d/jenkins.repo \ https://pkg.jenkins-ci.org/redhat/jenkins.repo
 
      - name: import jenkins key
-       command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+       shell: rpm --import https://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
     
      - name: Install jenkins
@@ -48,3 +48,7 @@
        debug:
         var: result.stdout
 
+     - name: Configuring Nexus user credentials
+       template:
+        src: settings.xml.j2
+        dest: /var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/maven3.6.3/conf/settings.xml   

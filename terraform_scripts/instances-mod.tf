@@ -162,7 +162,7 @@ resource "aws_instance" "nexus_worker" {
 }
 #17. Create a Tomcat server .
 resource "aws_instance" "tomcat_worker" {
-  count                  = 1
+  count                  = 2
   ami                    = var.server_ami
   instance_type          = var.micro_instance_type
   vpc_security_group_ids = [aws_security_group.kubernetes_sg.id]

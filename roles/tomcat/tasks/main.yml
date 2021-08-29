@@ -29,5 +29,4 @@
   template:
     src: server.xml.j2
     dest: /usr/local/latest/conf/server.xml
-    
   notify: start_tomcat
