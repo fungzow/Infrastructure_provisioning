@@ -8,7 +8,6 @@
         creates: cluster.txt
 
     - name: create .kube directory
-      become: yes
       become_user: ansible
       file:
         path: $HOME/.kube
