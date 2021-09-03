@@ -15,11 +15,13 @@
 - name: import jenkins key
   shell: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 
-- name: yum upgrade
-  shell: yum upgrade
+- name: yum update
+  yum: 
+    name: '*'
+    state: latest
 
-#- name: Install epel-release
- # shell: yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+- name: Install epel-release
+  shell: yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 - name: Install jenkins
   yum:
@@ -41,22 +43,22 @@
     name: jenkins
     enabled: true
        
-#- name: Sleep for 30 seconds and continue with play
- # wait_for:
-  #  timeout: 30
+- name: Sleep for 30 seconds and continue with play
+  wait_for:
+   timeout: 30
 
-#- name: Get init password Jenkins
- # shell: cat /var/lib/jenkins/secrets/initialAdminPassword
- # changed_when: false
-  #register: result
- # tags: 
-  # - xyz
+- name: Get init password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+  tags: 
+   - xyz
 
-#- name: Print init password Jenkins
- # debug:
-  #  var: result.stdout
- # tags:
-  # - 123
+- name: Print init password Jenkins
+  debug:
+    var: result.stdout
+  tags:
+   - 123
 
 - name: Install maven
   yum:

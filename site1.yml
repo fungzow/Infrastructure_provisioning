@@ -3,13 +3,13 @@
 #- name: Initialaize Kubernetes Master
  # import_playbook: master-cluster.yml
 #- name: Get token from master and join workers
-  #import_playbook: workers-cluster.yml
+ # import_playbook: workers-cluster.yml
 - name: Configure Jenkins server
   import_playbook: mainjenkins.yml
-#- name: Configure SonarQube server
- # import_playbook: sonarmain.yml
-#- name: Configure Nexus server
- # import_playbook: nexus-install.yml
-#- name: Configure Tomcat server
- # import_playbook: tomcat.yml
+- name: Configure SonarQube server
+  import_playbook: sonarmain.yml
+- name: Configure Nexus server
+  import_playbook: nexus-install.yml
+- name: Configure Tomcat server
+  import_playbook: tomcat.yml
 
