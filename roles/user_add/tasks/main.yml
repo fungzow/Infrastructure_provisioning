@@ -16,3 +16,4 @@
 - name: Enable passwordAuthentication for user
   shell: sed -re 's/^(PasswordAuthentication)([[:space:]]+)yes/\1\2no/' -i.`date -I` /etc/ssh/sshd_config
   notify: sshd restart
+
