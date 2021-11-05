@@ -18,8 +18,8 @@
 - name: move sonarqube-7.8
   command: rm -rf sonarqube-7.8.zip && mv sonarqube-7.8 sonarqube
 
-- name: Add a sonar user
-  shell: useradd sonar
+#- name: Add a sonar user
+ # shell: useradd sonar
 
 - name: Give sudo rights to sonar user
   shell: echo "sonar ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/sonar

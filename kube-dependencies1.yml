@@ -1,6 +1,7 @@
 - hosts: Kubernetes_Servers
   become: yes
   tasks:
+   
    - name: Docker Installation
      apt:
        name: docker.io
@@ -40,13 +41,17 @@
        enabled: yes
        state: started
 
+   - name: Hold packages
+     shell: apt-mark hold kubelet kubeadm
+       
+
    
 
-- hosts: Kubernetes_Master
-  become: yes
-  tasks:
-   - name: install kubectl
-     apt:
-       name: kubectl=1.18.3-00
-       state: present
-       force: yes
+#- hosts: Kubernetes_Master
+ # become: yes
+  #tasks:
+  # - name: install kubectl
+   #  apt:
+    #   name: kubectl=1.18.3-00
+    #   state: present
+     #  force: yes

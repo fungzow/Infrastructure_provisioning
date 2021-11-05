@@ -176,7 +176,7 @@ resource "aws_instance" "tomcat_worker" {
  }
 
 #18. Create a Prometheus server .
-resource "aws_instance" "prometheus_worker" {
+resource "aws_instance" "ansible_worker" {
   count                  = 1
   ami                    = var.server_ami
   instance_type          = var.micro_instance_type
@@ -185,7 +185,7 @@ resource "aws_instance" "prometheus_worker" {
   key_name               = var.key_name
 
   tags ={
-    Name = "Prometheus_server"
-    Type = "prometheus_worker"
+    Name = "ansible_server"
+    Type = "ansible_worker"
    }
  }

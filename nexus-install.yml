@@ -23,8 +23,8 @@
               dest: /opt/nexus
               remote_src: yes
 
-    - name: Add a nexus user
-      shell: useradd nexus
+    #- name: Add a nexus user
+     # shell: useradd nexus
 
     - name: Give sudo rights to nexus user
       shell: echo "nexus ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nexus

@@ -7,6 +7,7 @@
   - wget
   - git
   - java-1.8.0-openjdk
+  
 
 - name: install jenkins repo
   shell: wget -O /etc/yum.repos.d/jenkins.repo \ https://pkg.jenkins.io/redhat-stable/jenkins.repo
@@ -23,7 +24,7 @@
 - name: Install epel-release
   shell: yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
-- name: Install jenkins
+- name: Install jenkins#
   yum:
     name: jenkins
     state: present
@@ -45,20 +46,20 @@
        
 - name: Sleep for 30 seconds and continue with play
   wait_for:
-   timeout: 30
+    timeout: 30
 
 - name: Get init password Jenkins
   shell: cat /var/lib/jenkins/secrets/initialAdminPassword
   changed_when: false
   register: result
-  tags: 
-   - xyz
+  #tags: 
+  # - xyz
 
 - name: Print init password Jenkins
   debug:
     var: result.stdout
-  tags:
-   - 123
+  #tags:
+  # - 123
 
 - name: Install maven
   yum:
@@ -69,4 +70,27 @@
 - name: Configuring Nexus user credentials
   template:
     src: settings.xml.j2
-    dest: /etc/maven/settings.xml   
+    dest: /etc/maven/settings.xml  
+
+#- name: Copy .ssh directory to jenkins home
+ # become_user: root
+ # copy:
+   # src: /home/ansible/.ssh/id_rsa
+    #dest: /var/lib/jenkins/
+    #owner: jenkins
+    #group: jenkins
+   # remote_src: yes
+
+- name: Copy kubeconfig file to jenkins home
+  become_user: ansible
+  copy:
+    src: config
+    dest: /var/lib/jenkins/
+    owner: jenkins
+    group: jenkins
+   
+
+
+
+
+      

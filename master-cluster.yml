@@ -1,6 +1,7 @@
 - hosts: Kubernetes_Master
   become: yes
   tasks:
+    
     - name: Start the cluster
       shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster.txt
       args:
@@ -22,7 +23,13 @@
         owner: ansible
 
     - name: install Pod network
-      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_setup.txt
+      shell: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml >> pod_setup.txt
+      #shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_setup.txt
       args:
         chdir: $HOME
         creates: pod_setup.txt
+
+    - name: Copy kubeconfig file to control node
+      fetch:
+        src: /home/ansible/.kube/config
+        dest: /home/ansible/.kube

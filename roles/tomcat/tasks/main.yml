@@ -30,3 +30,12 @@
     src: server.xml.j2
     dest: /usr/local/latest/conf/server.xml
   notify: start_tomcat
+
+- name: Copy public key
+  become: yes
+  copy:
+    src: /home/ec2-user/.ssh/authorized_keys
+    dest: /home/ansible/
+    owner: ansible
+    group: ansible
+    remote_src: yes 

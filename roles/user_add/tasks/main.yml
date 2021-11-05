@@ -17,3 +17,12 @@
   shell: sed -re 's/^(PasswordAuthentication)([[:space:]]+)yes/\1\2no/' -i.`date -I` /etc/ssh/sshd_config
   notify: sshd restart
 
+- name: create .ssh directory
+  become: yes
+  file:
+    path: /home/{{user_name}}/.ssh/
+    state: directory
+    mode: 0755
+    owner: "{{user_name}}" 
+    group: "{{user_group}}"
+
